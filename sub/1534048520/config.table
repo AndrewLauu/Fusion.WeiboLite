@@ -1,0 +1,823 @@
+{
+  ["view_attribute"]	= {
+      ["搜索栏阴影强度"]	= "2dp" ;
+      ["侧滑栏宽度"]	= "240dp" ;
+      ["顶栏高度"]	= "55dp" ;
+      ["顶栏阴影强度"]	= "4dp" ;
+      ["搜索栏圆角弧度"]	= "2dp" ;
+      ["顶栏标题"]	= "关于" ;
+      } ;
+  ["web"]	= {
+      ["支持打开外部应用"]	= true ;
+      ["启用进度条"]	= false ;
+      ["浏览器用户标识"]	= "默认" ;
+      ["启动网页"]	= "" ;
+      ["网页沉浸"]	= false ;
+      ["启用长按菜单"]	= false ;
+      } ;
+  ["events"]	= {
+      ["网页加载完毕"]	= "--网页加载完毕后执行的事件\
+\
+--接收参数\
+浏览器对象,网页链接=..." ;
+      ["程序启动"]	= "--程序启动时会执行的事件\
+--补丁\
+import 'android.webkit.WebView'\
+webView.addJavascriptInterface({},'JsInterface')\
+--弹出消息(\"安全补丁已生效\")\
+\
+require \"import\"\
+import \"android.widget.EditText\"\
+import \"android.widget.LinearLayout\"\
+\
+--获取版本\
+function get_version()\
+  PackageName=this.getPackageName()--包名\
+  --弹出消息(PackageName)\
+  PackInfo=this.getPackageManager().getPackageInfo(PackageName,64)--包信息\
+  local DebugMode=false\
+  if this.getPackageName()==\"cn.coldsong.fusionapp\" and init then\
+    DebugMode=true\
+    --弹出消息(\"已启用调试模式\")\
+    VersionName=init.appver--可以直接使用appver\
+    --在FA运行也可以检测到正确的版本\
+  else\
+    DebugMode=false\
+    VersionName=tostring(PackInfo.versionName)--版本名\
+  end\
+  if not VersionName then\
+    VersionName =\"未知版本\"\
+  end\
+  return VersionName\
+end\
+\
+--页面\
+layout=\
+{\
+  LinearLayout;\
+  Orientation=\"vertical\";\
+  layout_width=\"fill\";\
+  layout_height=\"fill\";\
+  --[[标题栏\
+  {\
+    CardView;\
+    background=\"#FFffffff\";\
+    layout_height=\"80dp\";\
+    layout_width=\"fill\";\
+    elevation=\"4dp\";\
+    {\
+      TextView;\
+      layout_marginLeft=\"20dp\";\
+      textColor=\"#FF000000\";\
+      gravity=\"top\";\
+      layout_marginTop=\"38dp\";\
+      text=\"关于\";\
+      layout_height=\"60dp\";\
+      layout_width=\"100dp\";\
+      textSize=\"21sp\";\
+    };\
+    {\
+      CardView;\
+      background=\"#FF000000\";\
+      layout_width=\"fill\";\
+      layout_height=\"25dp\";\
+    };\
+  };\
+  --标题栏//]]--\
+  --滑动\
+  {\
+    ScrollView;\
+    layout_weight=\"1\";\
+    layout_width=\"fill\";\
+    layout_height=\"fill\";\
+    --background=\"#FFeeeeee\";\
+    --内容\
+    {\
+      LinearLayout;\
+      layout_width=\"fill\";\
+      layout_height=\"fill\";\
+      Orientation=\"vertical\";\
+      --块1\
+      {\
+        CardView;\
+        layout_width=\"fill\";\
+        id=\"card_init\";\
+        layout_height=\"220dp\";\
+        layout_marginTop=\"10dp\";\
+        layout_marginLeft=\"10dp\";\
+        layout_marginRight=\"10dp\";\
+        layout_marginBottom=\"10dp\";\
+        {\
+          LinearLayout;\
+          layout_width=\"fill\";\
+          gravity=\"center\";\
+          layout_height=\"fill\";\
+          Orientation=\"vertical\";\
+          --顶图\
+          {\
+            ImageView; \
+            layout_width=\"100dp\";\
+            layout_height=\"100dp\";\
+            src=\"sina360.png\";\
+          };\
+          --顶图//\
+          --slogan\
+          {\
+            TextView; \
+            gravity=\"center\";\
+            layout_marginTop=\"5dp\";\
+            layout_marginBottom=\"0dp\";\
+            textSize=\"16sp\";\
+            textColor=\"#FF000000\";\
+            text=[==[走出去看 遇见自己\
+Come out and see.\
+To encounter with yourself.\
+          ]==];\
+          };\
+          --slogan//\
+          --icons\
+          {\
+            LinearLayout;\
+            layout_width=\"fill\";\
+            layout_height=\"fill\";\
+            layout_marginBottom=(\"15dp\");\
+            Orientation=\"horizontal\";\
+            {\
+              LinearLayout;\
+              id=\"share\";\
+              layout_weight=\"1\";\
+              layout_height=\"fill\";\
+              gravity=\"center\";\
+              {\
+                ImageView;\
+                src=\"share64.png\";\
+                layout_width=\"25dp\";\
+                layout_height=\"25dp\";\
+              };\
+            };\
+            {\
+              LinearLayout;\
+              id=\"rate\";\
+              layout_weight=\"1\";\
+              layout_height=\"fill\";\
+              gravity=\"center\";\
+              {\
+                ImageView;\
+                src=\"star64.png\";\
+                layout_width=\"25dp\";\
+                layout_height=\"25dp\";\
+              };\
+            };\
+            {\
+              LinearLayout;\
+              id=\"code\";\
+              layout_weight=\"1\";\
+              layout_height=\"fill\";\
+              gravity=\"center\";\
+              {\
+                ImageView;\
+                src=\"code64.png\";\
+                layout_width=\"25dp\";\
+                layout_height=\"25dp\";\
+              };\
+            };\
+          };\
+          --icon//\
+        };\
+      };\
+      --块1//\
+      --块2\
+      {\
+        CardView;\
+        layout_width=\"fill\";\
+        id=\"card_develop\";\
+        layout_height=\"150dp\";\
+        layout_marginTop=\"5dp\";\
+        background=\"#FFffffff\";\
+        layout_marginLeft=\"10dp\";\
+        layout_marginRight=\"10dp\";\
+        layout_marginBottom=\"10dp\";\
+        {\
+          LinearLayout;\
+          layout_width=\"fill\";\
+          layout_height=\"fill\";\
+          Orientation=\"vertical\";\
+          --块标题\
+          {\
+            TextView;\
+            layout_width=\"100dp\";\
+            layout_height=\"40dp\";\
+            gravity=\"center\";\
+            text=\"开发相关\";\
+            textColor=\"#FF2b90f9\";\
+            textSize=\"18dp\";\
+          };\
+          --块标题//\
+          --内容2.1\
+          {\
+            LinearLayout;\
+            id=\"developer\";\
+            layout_width=\"fill\";\
+            gravity=\"center|left\";\
+            orientation=\"horizontal\";\
+            {\
+              ImageView;\
+              layout_width=\"30dp\";\
+              layout_margin=\"10dp\";\
+              layout_height=\"30dp\";\
+              src=\"dev64.png\";\
+            };\
+            {\
+              LinearLayout;\
+              layout_width=\"fill\";\
+              layout_marginLeft=\"10dp\";\
+              layout_marginRight=\"10dp\";\
+              orientation=\"vertical\";\
+              {\
+                TextView;\
+                text=\"Andrew Lau\";\
+                textColor=\"#FF000000\";\
+                textSize=\"15sp\";\
+              };\
+              {\
+                TextView;\
+                text=\"应用开发者\";\
+                textColor=\"#FF000000\";\
+                textSize=\"12sp\";\
+              };\
+            };\
+          };\
+          --内容2.1//\
+          --内容2.2\
+          {\
+            LinearLayout;\
+            id=\"version\";\
+            layout_width=\"fill\";\
+            gravity=\"center|left\";\
+            orientation=\"horizontal\";\
+            {\
+              ImageView;\
+              layout_width=\"30dp\";\
+              layout_margin=\"10dp\";\
+              layout_height=\"30dp\";\
+              src=\"version64.png\";\
+            };\
+            {\
+              LinearLayout;\
+              layout_width=\"fill\";\
+              layout_marginLeft=\"10dp\";\
+              layout_marginRight=\"10dp\";\
+              orientation=\"vertical\";\
+              {\
+                TextView;\
+                text=get_version();\
+                textColor=\"#FF000000\";\
+                textSize=\"15sp\";\
+              };\
+              {\
+                TextView;\
+                text=\"软件版本\";\
+                textColor=\"#FF000000\";\
+                textSize=\"12sp\";\
+              };\
+            };\
+          };\
+          --内容2.2//\
+        };\
+      };\
+      --块2//\
+\
+      --块3\
+      {\
+        CardView;\
+        layout_width=\"fill\";\
+        id=\"card_contact\";\
+        layout_height=\"150dp\";\
+        layout_marginTop=\"5dp\";\
+        background=\"#FFffffff\";\
+        layout_marginLeft=\"10dp\";\
+        layout_marginRight=\"10dp\";\
+        layout_marginBottom=\"10dp\";\
+        {\
+          LinearLayout;\
+          layout_width=\"fill\";\
+          layout_height=\"fill\";\
+          Orientation=\"vertical\";\
+          {\
+            TextView;\
+            layout_width=\"120dp\";\
+            layout_height=\"40dp\";\
+            gravity=\"center\";\
+            text=\"联系与反馈\";\
+            textColor=\"#FF2b90f9\";\
+            textSize=\"18dp\";\
+          };\
+          --[[ --内容3.1\
+          {\
+            LinearLayout;\
+            id=\"lianxi\";\
+            layout_width=\"fill\";\
+            gravity=\"center|left\";\
+            Orientation=\"horizontal\";\
+            {\
+              ImageView;\
+              layout_width=\"30dp\";\
+              layout_margin=\"10dp\";\
+              layout_height=\"30dp\";\
+              src=\"message_text_outline_48x48.png\";\
+            };\
+            {\
+              TextView;\
+              text=\"联系作者\";\
+              textColor=\"#FF000000\";\
+              textSize=\"15dp\";\
+            };\
+          };\
+          --内容3.1//]]--\
+\
+          --内容3.2\
+          {\
+            LinearLayout;\
+            id=\"email\";\
+            layout_width=\"fill\";\
+            gravity=\"center|left\";\
+            Orientation=\"horizontal\";\
+            {\
+              ImageView;\
+              layout_width=\"30dp\";\
+              layout_margin=\"10dp\";\
+              layout_height=\"30dp\";\
+              src=\"email64.png\";\
+            };\
+            {\
+              LinearLayout;\
+              layout_width=\"fill\";\
+              layout_marginLeft=\"10dp\";\
+              layout_marginRight=\"10dp\";\
+              orientation=\"vertical\";\
+\
+              {\
+                TextView;\
+                text=\"邮件反馈\";\
+                textColor=\"#FF000000\";\
+                textSize=\"15dp\";\
+              };\
+              {\
+                TextView;\
+                text=\"通过邮箱联系开发者\";\
+                textColor=\"#FF000000\";\
+                textSize=\"12sp\";\
+              };\
+            };\
+          };\
+          --内容3.2//\
+          --内容3.3\
+          {\
+            LinearLayout;\
+            id=\"support\";\
+            layout_width=\"fill\";\
+            gravity=\"center|left\";\
+            orientation=\"horizontal\";\
+            {\
+              ImageView;\
+              layout_width=\"30dp\";\
+              layout_margin=\"10dp\";\
+              layout_height=\"30dp\";\
+              src=\"support64.png\";\
+            };\
+            {\
+              LinearLayout;\
+              layout_width=\"fill\";\
+              layout_marginLeft=\"10dp\";\
+              layout_marginRight=\"10dp\";\
+              orientation=\"vertical\";\
+              {\
+                TextView;\
+                text=\"支持\";\
+                textColor=\"#FF000000\";\
+                textSize=\"15sp\";\
+              };\
+              {\
+                TextView;\
+                text=\"赞助作者\";\
+                textColor=\"#FF000000\";\
+                textSize=\"12sp\";\
+              };\
+            };\
+          };\
+          --内容3.3//\
+          --[[--内容3.4\
+          {\
+            LinearLayout;\
+            id=\"qqun\";\
+            layout_width=\"fill\";\
+            gravity=\"center|left\";\
+            Orientation=\"horizontal\";\
+            {\
+              ImageView;\
+              layout_width=\"30dp\";\
+              layout_margin=\"10dp\";\
+              layout_height=\"30dp\";\
+              src=\"linux_48x48.png\";\
+            };\
+            {\
+              TextView;\
+              text=\"加入官方QQ群\";\
+              textColor=\"#FF000000\";\
+              textSize=\"15dp\";\
+            };\
+          };\
+          --内容3.4//]]--\
+        };\
+      };\
+      --块3//\
+      --块4\
+      {\
+        CardView;\
+        layout_width=\"fill\";\
+        id=\"card_about\";\
+        layout_height=\"229dp\";\
+        layout_marginTop=\"5dp\";\
+        background=\"#FFffffff\";\
+        layout_marginLeft=\"10dp\";\
+        layout_marginRight=\"10dp\";\
+        layout_marginBottom=\"10dp\";\
+        {\
+          LinearLayout;\
+          layout_width=\"fill\";\
+          layout_height=\"fill\";\
+          Orientation=\"vertical\";\
+          {\
+            TextView;\
+            layout_width=\"120dp\";\
+            layout_height=\"40dp\";\
+            --layout_marginLeft=\"0dp\";\
+            gravity=\"center\";\
+            text=\"关于本应用\";\
+            textColor=\"#ff2b90f9\";\
+            textSize=\"18dp\";\
+          };\
+          {\
+            TextView;\
+            layout_width=\"fill\";\
+            layout_height=\"fill\";\
+            layout_marginTop=\"10dp\";\
+            layout_marginLeft=\"20dp\";\
+            layout_marginRight=\"20dp\";\
+            text=[==[应用基于微博HTML5版封装架构\
+              \
+框架及编译环境来自Fusion App (by寒歌)\
+  \
+部分代码获取自FA开源项目并进行了重新编写\
+  \
+应用尚不成熟，部分功能未有机会开发，还有一些莫名其妙的BUG\
+\
+(如果有机会)下个版本见]==];\
+          };\
+        };\
+      };\
+      --块4\
+      --尾注1\
+      {\
+        LinearLayout;\
+        layout_width=\"fill\";\
+        gravity=\"center\";\
+        {\
+          TextView;\
+          layout_werght=\"1\";\
+          id=\"license\";\
+          textColor=\"#FF2b90d9\";\
+          text=\"服务条款\";\
+        };\
+        {\
+          TextView;\
+          text=\" ｜ \";\
+          textColor=\"#FF000000\";\
+        };\
+        {\
+          TextView;\
+          layout_werght=\"1\";\
+          id=\"privacy\";\
+          textColor=\"#FF2b90d9\";\
+          text=\"隐私政策\";\
+        };\
+      };\
+      --尾注1//\
+      --尾注2\
+      {\
+        TextView;\
+        text=\"© Powered by Andrew Lau. All rights reserved\";\
+        layout_width=\"fill\";\
+        textSize=\"12sp\";\
+        gravity=\"center\";\
+        layout_marginBottom=\"12dp\";\
+      };\
+      --尾注2//\
+    };\
+    --内容//\
+  };\
+  --滑动//\
+};\
+--页面//\
+\
+webView.addView(loadlayout(layout))\
+--[[\
+activity.setContentView(loadlayout(layout))\
+--把这段代码放到调试里面去测试\
+\
+if Build.VERSION.SDK_INT >= 19 then\
+  activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);\
+end\
+\
+]]--\
+--构建卡片圆角函数\
+function RoundCorner(view,InsideColor,radiu)\
+  import \"android.graphics.drawable.GradientDrawable\"\
+  drawable = GradientDrawable() \
+  drawable.setShape(GradientDrawable.RECTANGLE) \
+  drawable.setColor(InsideColor)\
+  drawable.setCornerRadii({radiu,radiu,radiu,radiu,radiu,radiu,radiu,radiu});\
+  view.setBackgroundDrawable(drawable)\
+end\
+\
+--调用圆角函数\
+角度=15\
+控件颜色=0xffffffff\
+ids={card_init,card_develop,card_contact,card_about}\
+for i,id in ipairs(ids) do\
+  RoundCorner(id,控件颜色,角度)\
+end\
+\
+--创建点击效果函数\
+function ButtonOnClick(layout)\
+  颜色=0x9ff000000\
+  import \"android.content.res.ColorStateList\"\
+  local attrsArray = {android.R.attr.selectableItemBackgroundBorderless} \
+  local typedArray =activity.obtainStyledAttributes(attrsArray) \
+  ripple=typedArray.getResourceId(0,0) \
+  aoos=activity.Resources.getDrawable(ripple) \
+  aoos.setColor(ColorStateList(int[0].class{int{}},int{颜色}))\
+  id.setBackground(aoos.setColor(ColorStateList(int[0].class{int{}},int{颜色})))\
+end\
+\
+--调用函数\
+id=share\
+ButtonOnClick(id)\
+id.onClick=function()\
+  import \"android.content.*\" \
+  text=\"微博 - HTML5再开发版\" \
+  intent=Intent(Intent.ACTION_SEND); \
+  intent.setType(\"text/plain\"); \
+  intent.putExtra(Intent.EXTRA_SUBJECT, \"分享\"); \
+  intent.putExtra(Intent.EXTRA_TEXT, text); \
+  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); \
+  activity.startActivity(Intent.createChooser(intent,\"好东西肯定要分享\"));\
+end\
+\
+id=rate\
+ButtonOnClick(id)\
+id.onClick=function()\
+  弹出消息(\"功能开发中...\")\
+end\
+\
+id=code\
+ButtonOnClick(id)\
+id.onClick=function()\
+  对话框()\
+  .设置标题(\"使用的开源项目或资源\")\
+  .设置消息([==[\
+  \
+应用基于微博HTML5版(https://m.weibo.cn)封装架构；\
+\
+框架及编译环境来自Fusion App(by寒歌)，\
+部分代码获取自FA开源项目并进行了重新编写；\
+详情待续...\
+\
+部分图标采集于Iconfont矢量图标库(http://http://www.iconfont.cn)，\
+部分图片获取于Cuto壁纸库(https://sspai.com/)；\
+\
+在此向他们对开源社区以及本项目做出的贡献表示由衷的感谢。]==])\
+  .显示()\
+end\
+\
+id=support\
+ButtonOnClick(id)\
+id.onClick=function()\
+  local bag=\"https://qr.alipay.com/c1x05323ae45yslxrewat2d\"\
+  local trans =\"https://qr.alipay.com/tsx00849ljadei95sbkh560\"\
+  对话框()\
+  .设置标题(\"支持\")\
+  .设置消息([==[\
+感谢你点开这个页面和对本项目的支持！你的支持将成为推动项目前进的莫大动力。\
+你可以选择通过支付宝进行捐赠，或领一个红包。\
+]==])\
+  .设置消极按钮(\"捐赠\",function()\
+    alipay_me(trans)\
+  end)\
+  .设置积极按钮(\"领红包\",function()\
+    alipay_me(bag)\
+  end)\
+  .设置中立按钮(\"取消\")\
+  .显示()\
+end\
+\
+function alipay_me(qr)\
+  弹出消息(\"感谢支持！\")\
+  import \"android.content.Intent\"\
+  import \"android.net.Uri\"\
+  xpcall(function() \
+    local url=\"alipayqr://platformapi/startapp?saId=10000007&qrcode=\"..qr\
+    activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)));\
+  end,\
+  function()\
+    local url = qr;\
+    activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)));\
+  end)\
+end\
+\
+id=developer\
+ButtonOnClick(id)\
+id.onClick=function()\
+  uname=\"权益法计量下的长期股权投资\"\
+  复制文本(uname)\
+  --加载网页(\"https://m.weibo.cn/u/2215297233\")\
+  弹出消息(\"微博ID \"..uname..\" 已复制\")\
+  --进入子页面(\"setting\")\
+end\
+\
+id=version\
+ButtonOnClick(id)\
+count=0\
+emoji = {\"ヽ(*´з｀*)ﾉ\",\"(ง •̀_•́)ง\",\"( *・ω・)✄╰ひ╯\",\"(ﾉ_ _)ﾉ\",\"(ง ˙o˙)ว\",\"|･ω･｀)\",\"_(•̀ω•́ 」∠)_\",\"(^･ｪ･^)\",\"（　＾ω＾）\",\"(´･д･｀)笨蛋\",\"(´・ω・)\",\"晚安(´-ωก`)\",\"(˘ω˘)睡了\"}\
+id.onClick=function()\
+  --[[todo:检查更新]]--\
+  count=count+1\
+  if count==1 then\
+    弹出消息(\"开发中...\")\
+  elseif count ==2 then \
+    弹出消息(\"滴滴滴 你戳啥呀\")\
+  else 弹出消息(\"滴滴滴 你戳啥呀 +\"..(count-1)..\" \"..emoji[count-2])\
+  end\
+end\
+\
+--[[\
+id=tubiao\
+ButtonOnClick(id)\
+id.onClick=function()\
+  import \"android.content.Intent\"\
+  import \"android.net.Uri\"\
+  url=\"https://www.coolapk.com/apk/cn.coldsong.fusionapp\"\
+  viewIntent = Intent(\"android.intent.action.VIEW\",Uri.parse(url))\
+  activity.startActivity(viewIntent)\
+end\
+]]--\
+\
+--[[\
+id=lianxi\
+ButtonOnClick(id)\
+id.onClick=function()\
+  import \"android.net.Uri\"\
+  import \"android.content.Intent\"\
+  --QQ聊天\
+  url=\"mqqwpa://im/chat?chat_type=wpa&uin=271257581\"\
+  activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))\
+end\
+]]\
+\
+id=email\
+ButtonOnClick(id)\
+id.onClick=function()\
+  对话框()\
+  .设置标题(\"反馈\")\
+  .设置消息(\"是否通过邮件进行反馈\")\
+  .设置积极按钮(\"确定\",function()\
+\
+    --获取设备信息\
+    model = Build.MODEL\
+    OS = Build.VERSION.RELEASE\
+    version = Build.DISPLAY\
+    sdk = Build.VERSION.SDK\
+    cpu = Build.CPU_ABI\
+    board =Build.BOARD --主板名称\
+    hdName=Build.FINGERPRINT --硬件名\
+    manufacturer = Build.MANUFACTURER\
+    brand = Build.BRAND\
+    user=Build.USER\
+    --定义邮件\
+    import \"android.content.Intent\"\
+    --[[参考CSDN博主@ACE1985：https://blog.csdn.net/asce1885/article/details/8119898]]--\
+    local addr = \"mailto:andrew_lauu@126.com\"\
+    local uri = Uri.parse(addr)\
+    local version=get_version()\
+    intent = Intent(Intent.ACTION_SENDTO, uri)\
+    intent.setType(\"message/rfc822\") \
+    --intent.putExtra(Intent.EXTRA_CC, addr) -- 抄送人\
+    intent.putExtra(Intent.EXTRA_SUBJECT, \"反馈\") -- 主题\
+    intent.putExtra(Intent.EXTRA_TEXT, \"请输入你的反馈：\\n\\n应用版本:\"..get_version()..\"\\n硬件制造商:\"..manufacturer..\"\\n系统制造商：\"..brand..\"\\n手机型号：\"..model..\"\\nAndroid 版本：\"..OS..\"\\n版本号：\"..version..\"\\nSDK版本：\" ..sdk..\"\\n用户名：\" ..user..--[[\"\\n硬件名：\"..hdName..]]\"\\nCPU：\"..cpu..\"\\n主板型号：\" ..board)\
+    --正文\
+    activity.startActivity(Intent.createChooser(intent, \"请选择邮件类应用\"))\
+\
+    --[[--解决方案2\
+  i = Intent(Intent.ACTION_SEND)\
+  i.setType(\"message/rfc822\") \
+  i.putExtra(Intent.EXTRA_EMAIL,addr) --addr用不带mailto的数组传入\
+  i.putExtra(Intent.EXTRA_SUBJECT,\"反馈\")\
+  i.putExtra(Intent.EXTRA_TEXT,\"请在此输入你要反馈的内容：\")\
+  activity.startActivity(Intent.createChooser(i, \"Choice\"))\
+  复制文本(tos[1])\
+  弹出消息(\"邮箱地址已复制到剪贴板\")]]\
+  end)\
+  .设置消极按钮(\"取消\")\
+  .显示()\
+end\
+\
+--[[\
+id=qqun\
+ButtonOnClick(id)\
+id.onClick=function()\
+  import \"android.net.Uri\"\
+  import \"android.content.Intent\"\
+  --加群\
+  url=\"mqqapi://card/show_pslcard?src_type=internal&version=1&uin=708736656&card_type=group&source=qrcode\"\
+  activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))\
+end\
+]]--\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+" ;
+      ["收到新标题"]	= "--浏览器加载新页面并获得新标题时执行的事件\
+\
+--接收参数\
+浏览器对象，新标题=..." ;
+      ["网页即将加载"]	= "--浏览器即将加载新的网页时执行的事件\
+\
+--接收参数\
+浏览器对象,网页链接=..." ;
+      } ;
+  ["fltBtn"]	= {
+      ["显示"]	= false ;
+      ["点击事件"]	= "--悬浮按钮点击时执行的事件" ;
+      ["图标"]	= "" ;
+      } ;
+  ["toolbar"]	= {
+      ["icon_btns"]	= {
+          } ;
+      ["启用搜索功能"]	= false ;
+      ["输入栏模式"]	= false ;
+      ["搜索URL"]	= "" ;
+      ["menus"]	= {
+          } ;
+      ["搜索框提示"]	= "" ;
+      } ;
+  ["sidebar"]	= {
+      ["启用"]	= false ;
+      ["items"]	= {
+          } ;
+      ["启用顶部图片"]	= false ;
+      } ;
+  ["colors"]	= {
+      ["侧滑栏背景"]	= "#ffffffff" ;
+      ["侧滑栏列表图标"]	= "#ff757575" ;
+      ["搜索栏背景"]	= "#ffffffff" ;
+      ["顶栏部件触摸"]	= "#75000000" ;
+      ["侧滑栏列表文字"]	= "#ff333333" ;
+      ["搜索栏部件触摸"]	= "#44000000" ;
+      ["导航栏"]	= "#ff2c2e43" ;
+      ["顶栏部件"]	= "#ff000000" ;
+      ["顶栏"]	= "#ffffffff" ;
+      ["悬浮按钮图标"]	= "#ffffffff" ;
+      ["悬浮按钮"]	= "#ff33a7aa" ;
+      ["进度条"]	= "#00000000" ;
+      ["搜索栏部件"]	= "#ff888888" ;
+      ["搜索栏提示文字"]	= "#80000000" ;
+      } ;
+  ["web_control"]	= {
+      } ;
+  ["switch"]	= {
+      ["横屏"]	= false ;
+      ["启用启动图"]	= false ;
+      ["支持滑动页面"]	= false ;
+      ["显示状态栏"]	= true ;
+      } ;
+  } ;

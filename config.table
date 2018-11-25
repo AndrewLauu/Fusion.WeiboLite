@@ -1,0 +1,308 @@
+{
+  ["global_js"]	= "" ;
+  ["fltBtn"]	= {
+      ["图标"]	= "" ;
+      ["点击事件"]	= "\
+--[[基础\
+require \"import\"\
+import \"android.widget.*\"\
+悬浮球()\
+.设置坐标(52,159)\
+.设置大小(150)\
+.设置颜色(0xFF33A7AA)\
+.设置图标(\"https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_close_48px-512.png\",0xffffffff)\
+--0xffffffff为图标色\
+.点击事件(function() \
+.点击事件(function()\
+  layout.setRotation(180)]]--\
+刷新网页()\
+--end)\
+\
+\
+\
+" ;
+      ["显示"]	= true ;
+      } ;
+  ["web_control"]	= {
+      [2]	= {
+          ["js"]	= "document.getElementsByTagName(\"body\")[1].style.transform=\"translateY(-20px)\"\
+" ;
+          ["url"]	= "https://m.weibo.cn/message" ;
+          ["remove_element"]	= "" ;
+          } ;
+      [1]	= {
+          ["js"]	= "/*提升导航高度*/document.getElementsByClassName(\"lite-topbar main-top\")[0].style.transform=\" translateY(-82px)\"\
+\
+/*提升第一条微博高度*/document.getElementsByClassName(\"main-wrap\")[0].style.transform=\" translateY(-40px)\"" ;
+          ["url"]	= "m.weibo.cn" ;
+          ["remove_element"]	= "nav-top,m-tips m-tips-tp" ;
+          } ;
+      } ;
+  ["colors"]	= {
+      ["进度条"]	= "#00000000" ;
+      ["搜索栏部件触摸"]	= "#44000000" ;
+      ["侧滑栏背景"]	= "#ffffffff" ;
+      ["搜索栏提示文字"]	= "#ff919294" ;
+      ["悬浮按钮图标"]	= "#ff000000" ;
+      ["搜索栏背景"]	= "#fff2f3f5" ;
+      ["悬浮按钮"]	= "#ffffffff" ;
+      ["顶栏部件"]	= "#ffffffff" ;
+      ["顶栏部件触摸"]	= "#22ffffff" ;
+      ["搜索栏部件"]	= "#ff888888" ;
+      ["导航栏"]	= "#ff2c2e43" ;
+      ["侧滑栏列表文字"]	= "#ff333333" ;
+      ["侧滑栏列表图标"]	= "#ff757575" ;
+      ["顶栏"]	= "#ffffffff" ;
+      } ;
+  ["view_attribute"]	= {
+      ["顶栏标题"]	= "微博" ;
+      ["顶栏高度"]	= "53dp" ;
+      ["搜索栏阴影强度"]	= "0dp" ;
+      ["顶栏阴影强度"]	= "5dp" ;
+      ["侧滑栏宽度"]	= "240dp" ;
+      ["搜索栏圆角弧度"]	= "23dp" ;
+      } ;
+  ["events"]	= {
+      ["程序启动"]	= "\
+--程序启动时会执行的事件\
+--补丁\
+import 'android.webkit.WebView'\
+webView.addJavascriptInterface({},'JsInterface')\
+--弹出消息(\"安全补丁已生效\")\
+\
+function chkLogin()\
+  --判断登录状态\
+  url =\"https://m.weibo.cn\"\
+  UA=\"\"\
+  if webView then\
+    UA=webView.Settings.UserAgentString end\
+  if UA or UA==\"\" then \
+    UserAgent=\"Mozilla/5.0 (Linux; Android 8.0; wv) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0 Mobile Safari/537.36\" end\
+\
+  Http.get(url,nil,\"UTF-8\",{[\"UserAgent\"]=UA},\
+  function(code,content,cookie)\
+    -- print(content)\
+    if code ==200 and content then\
+      uid=content:match(\"uid.*?''.*?,\")\
+      --login=content:match(\"login:%s%[%d%].*?,\")\
+      --print(uid)\
+      --print(login)\
+      if uid == nil then\
+        isLogin=0\
+        tologin()\
+      else \
+        isLogin=1\
+        uid=uid:match(\"[0-9]+\")\
+        --弹出消息(\"已登录\")\
+      end\
+    else\
+      弹出消息(\"内部错误:未检测到登录状态\")\
+    end\
+  end)\
+  --print (uid)\
+  return isLogin\
+end\
+\
+function tologin()\
+  对话框()\
+  .设置标题(\"未登录\")\
+  .设置消息(\"是否登录微博账号\")\
+  .设置积极按钮(\"确定\",function()\
+    进入子页面(\"login\")\
+    显示消息(\"正在转跳登录\")\
+  end)\
+  .设置消极按钮(\"稍后\",function()\
+    弹出消息(\"稍后可在右上角登录\")\
+  end)\
+  .显示()\
+end\
+\
+\
+chkLogin()\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+" ;
+      ["收到新标题"]	= "--浏览器加载新页面并获得新标题时执行的事件\
+\
+function tologin()\
+  对话框()\
+  .设置标题(\"未登录\")\
+  .设置消息(\"是否登录微博账号\")\
+  .设置积极按钮(\"确定\",function()\
+    进入子页面(\"login\")\
+    显示消息(\"正在转跳登录\")\
+  end)\
+  .设置消极按钮(\"稍后\",function()\
+    弹出消息(\"稍后可在右上角登录\")\
+  end)\
+  .显示()\
+end\
+--接收参数\
+t=webView.getTitle()\
+--print(t)\
+if t == \"未登录\" then \
+tologin()\
+end" ;
+      ["网页加载完毕"]	= "--function chkLogin2()\
+--[[\
+加载Js([[\
+pat_uid_str=/uid.*,/g;\
+pat_log =/login.+\\[1\\]\\[.?\\].*?,/g;\
+html=document.documentElement.outerHTML;\
+isLogin=pat_log.test(html);\
+uid_str=html.match(pat_uid_str);\
+alert(html);\
+alert(isLogin);\
+if (isLogin)\
+{\
+  alert(\"登录了\");\
+  pat_uid = /\\d+/g;\
+  uid=uid_str.match(pat_uid);\
+  document.getElementsByTagName('title')[0].innerHTML=\"已登录-\"+uid;\
+}\
+else\
+{\
+  //alert('没登录');\
+  pat_uid=/uid/g;  \
+  uid=uid_str.match(pat_uid);\
+  alert(uid);\
+  document.getElementsByTagName('title')[0].innerHTML=\"未登录\";\
+  t=document.getElementsByTagName('title')[0].innerHTML;\
+  alert(t);\
+}\
+end;\
+htm=document.documentElement.outerHTML);\
+alert(htm);\
+\
+--chkLogin2()\
+]]--" ;
+      ["网页即将加载"]	= "--浏览器即将加载新的网页时执行的事件\
+\
+" ;
+      } ;
+  ["switch"]	= {
+      ["启用启动图"]	= true ;
+      ["横屏"]	= false ;
+      ["支持滑动页面"]	= true ;
+      ["显示状态栏"]	= true ;
+      } ;
+  ["sidebar"]	= {
+      ["启用"]	= true ;
+      ["items"]	= {
+          [1]	= {
+              ["icon"]	= "drawable/home.png" ;
+              ["onClick"]	= "加载网页(\"https://m.weibo.cn/\")\
+chkLogin()" ;
+              ["name"]	= "首页" ;
+              } ;
+          [2]	= {
+              ["icon"]	= "drawable/comment_text_outline.png" ;
+              ["onClick"]	= "加载网页(\"https://m.weibo.cn/message\")" ;
+              ["name"]	= "消息" ;
+              } ;
+          [3]	= {
+              ["icon"]	= "drawable/magnify.png" ;
+              ["onClick"]	= "加载网页(\"https://m.weibo.cn/p/searchall?containerid=231583\")" ;
+              ["name"]	= "发现" ;
+              } ;
+          [4]	= {
+              ["icon"]	= "drawable/account_outline.png" ;
+              ["onClick"]	= "if isLogin == 1 then\
+  加载网页(\"https://m.weibo.cn/profile/\"..uid)\
+elseif not uid or isLogin==0 then\
+  print(\"未登录\")\
+end" ;
+              ["name"]	= "我的" ;
+              } ;
+          [5]	= {
+              ["icon"]	= "drawable/cog.png" ;
+              ["onClick"]	= "进入子页面(\"setting\")" ;
+              ["name"]	= "设置" ;
+              } ;
+          [6]	= {
+              ["icon"]	= "drawable/information_outline.png" ;
+              ["onClick"]	= "进入子页面(\"about\")" ;
+              ["name"]	= "关于" ;
+              } ;
+          [7]	= {
+              ["icon"]	= "drawable/exit_to_app.png" ;
+              ["onClick"]	= "对话框()\
+.设置标题(\"\")\
+.设置消息(\"关闭微博？\")\
+.设置积极按钮(\"确定\",function()\
+  退出程序()\
+end)\
+.设置消极按钮(\"取消\")\
+.显示()" ;
+              ["name"]	= "退出" ;
+              } ;
+          } ;
+      ["启用顶部图片"]	= true ;
+      } ;
+  ["web"]	= {
+      ["网页沉浸"]	= false ;
+      ["浏览器用户标识"]	= "默认" ;
+      ["支持打开外部应用"]	= false ;
+      ["启动网页"]	= "https://m.weibo.cn/" ;
+      ["启用长按菜单"]	= true ;
+      ["启用进度条"]	= false ;
+      } ;
+  ["toolbar"]	= {
+      ["启用搜索功能"]	= true ;
+      ["menus"]	= {
+          [1]	= {
+              ["onClick"]	= "url =webView.getUrl()\
+复制文本(url)\
+弹出消息(\"已复制\")" ;
+              ["name"]	= "复制链接" ;
+              } ;
+          [2]	= {
+              ["onClick"]	= "--print(isLogin)\
+if isLogin == 0 then\
+  进入子页面(\"login\")\
+  弹出消息(\"正在跳转登录\")\
+elseif isLogin == 1 then\
+弹出消息(\"已登录\")\
+end" ;
+              ["name"]	= "登录" ;
+              } ;
+          [3]	= {
+              ["onClick"]	= "对话框()\
+.设置标题(\"\")\
+.设置消息(\"关闭微博？\")\
+.设置积极按钮(\"确定\",function()\
+  退出程序()\
+end)\
+.设置消极按钮(\"取消\")\
+.显示()" ;
+              ["name"]	= "退出" ;
+              } ;
+          } ;
+      ["搜索框提示"]	= "搜索微博、找人" ;
+      ["输入栏模式"]	= true ;
+      ["搜索URL"]	= "https://m.weibo.cn/p/searchall?containerid=100103type%3D1%26q%3D%s" ;
+      ["icon_btns"]	= {
+          [1]	= {
+              ["onClick"]	= "加载网页(\"https://m.weibo.cn/compose\")" ;
+              ["icon"]	= "tooltip_edit" ;
+              } ;
+          } ;
+      } ;
+  } ;

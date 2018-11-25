@@ -1,0 +1,46 @@
+{
+  ["web"]	= {
+      ["支持打开外部应用"]	= false ;
+      ["启用长按菜单"]	= true ;
+      ["浏览器用户标识"]	= "默认" ;
+      ["启动网页"]	= "https://passport.weibo.cn/signin/login?entry=mweibo&res=wel&wm=3349&r=https%3A%2F%2Fm.weibo.cn%2F" ;
+      ["网页沉浸"]	= false ;
+      ["启用进度条"]	= false ;
+      } ;
+  ["web_control"]	= {
+      } ;
+  ["switch"]	= {
+      ["启用启动图"]	= false ;
+      ["横屏"]	= false ;
+      ["显示状态栏"]	= true ;
+      } ;
+  ["colors"]	= {
+      ["导航栏"]	= "#ff33a7aa" ;
+      ["状态栏"]	= "#ffffffff" ;
+      ["进度条"]	= "#00000000" ;
+      } ;
+  ["events"]	= {
+      ["网页即将加载"]	= "--浏览器即将加载新的网页时执行的事件\
+\
+--接收参数\
+浏览器对象,网页链接=..." ;
+      ["网页加载完毕"]	= "--网页加载完毕后执行的事件\
+" ;
+      ["程序启动"]	= "--程序启动时会执行的事件\
+\
+--补丁\
+import 'android.webkit.WebView'\
+webView.addJavascriptInterface({},'JsInterface')\
+--弹出消息(\"安全补丁已生效\")" ;
+      ["收到新标题"]	= "--浏览器加载新页面并获得新标题时执行的事件\
+\
+--接收参数\
+t = webView.getTitle()\
+--print(t)\
+if t == \"微博\" then\
+  chkLogin()\
+  退出页面()\
+  end" ;
+      } ;
+  ["global_js"]	= "document.getElementsByTagName(\"body\")[0].style.transform=\"translateY(40px)\"" ;
+  } ;

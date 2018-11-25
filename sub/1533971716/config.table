@@ -1,0 +1,132 @@
+{
+  ["web_control"]	= {
+      } ;
+  ["view_attribute"]	= {
+      ["搜索栏阴影强度"]	= "2dp" ;
+      ["顶栏阴影强度"]	= "2dp" ;
+      ["侧滑栏宽度"]	= "240dp" ;
+      ["搜索栏圆角弧度"]	= "2dp" ;
+      ["顶栏标题"]	= "设置" ;
+      ["顶栏高度"]	= "56dp" ;
+      } ;
+  ["toolbar"]	= {
+      ["menus"]	= {
+          [1]	= {
+              ["onClick"]	= "PackLabel=this.getPackageManager().getApplicationInfo\
+  PackInfo=this.getPackageManager().getPackageInfo(PackageName,64)\
+  this.getPackageName()\
+\
+webView.clearCache(true)" ;
+              ["name"]	= "清除缓存" ;
+              } ;
+          } ;
+      ["icon_btns"]	= {
+          } ;
+      ["搜索框提示"]	= "" ;
+      ["搜索URL"]	= "" ;
+      ["输入栏模式"]	= false ;
+      ["启用搜索功能"]	= false ;
+      } ;
+  ["colors"]	= {
+      ["进度条"]	= "#00000000" ;
+      ["导航栏"]	= "#ff2c2e43" ;
+      ["搜索栏背景"]	= "#ffffffff" ;
+      ["侧滑栏列表文字"]	= "#ff333333" ;
+      ["悬浮按钮"]	= "#ff33a7aa" ;
+      ["搜索栏部件触摸"]	= "#44000000" ;
+      ["搜索栏提示文字"]	= "#80000000" ;
+      ["侧滑栏背景"]	= "#ffffffff" ;
+      ["顶栏"]	= "#ffffffff" ;
+      ["悬浮按钮图标"]	= "#ffffffff" ;
+      ["顶栏部件"]	= "#ff000000" ;
+      ["侧滑栏列表图标"]	= "#ff757575" ;
+      ["搜索栏部件"]	= "#ff888888" ;
+      ["顶栏部件触摸"]	= "#22ffffff" ;
+      } ;
+  ["events"]	= {
+      ["程序启动"]	= "--程序启动时会执行的事件\
+--补丁\
+import 'android.webkit.WebView'\
+webView.addJavascriptInterface({},'JsInterface')\
+--弹出消息(\"安全补丁已生效\")\
+\
+\
+\
+--清除缓存\
+function clr()\
+  --导入File类\
+  import \"java.io.File\"\
+  --显示多选框\
+  items={\"浏览记录\",\"缓存文件\"}\
+  多选对话框=AlertDialog.Builder(this)\
+  .setTitle(\"清除记录\")\
+  --勾选后执行\
+  .setPositiveButton(\"确定\",function()\
+    if clearhistory==1 and clearall==1 then\
+      File(lstads).delete()\
+      File(lstwebads).delete()\
+      lst={}\
+      lstweb={}\
+      os.execute(\"pm clear \"..activity.getPackageName())\
+    elseif clearhistory==0 and clearall==1 then\
+      os.execute(\"pm clear \"..activity.getPackageName())\
+    elseif clearhistory==1 and clearall==0 then\
+      File(lstads).delete()\
+      File(lstwebads).delete()\
+      lst={}\
+      lstweb={}\
+    else return nil\
+    end\
+  end)\
+  --选择事件\
+  .setMultiChoiceItems(items, nil,{ onClick=function(v,p)\
+      --清除历史\
+      if p==0 then clearhistory=1\
+      end\
+      --清除缓存\
+      if p==1 then clearall=1\
+      end\
+    end})\
+  多选对话框.show();\
+  clearhistory=0\
+  clearall=0\
+end" ;
+      ["网页加载完毕"]	= "--网页加载完毕后执行的事件\
+\
+--接收参数\
+浏览器对象,网页链接=..." ;
+      ["收到新标题"]	= "--浏览器加载新页面并获得新标题时执行的事件\
+\
+--接收参数\
+浏览器对象，新标题=..." ;
+      ["网页即将加载"]	= "--浏览器即将加载新的网页时执行的事件\
+\
+--接收参数\
+浏览器对象,网页链接=..." ;
+      } ;
+  ["sidebar"]	= {
+      ["启用"]	= true ;
+      ["items"]	= {
+          } ;
+      ["启用顶部图片"]	= true ;
+      } ;
+  ["switch"]	= {
+      ["支持滑动页面"]	= false ;
+      ["启用启动图"]	= false ;
+      ["横屏"]	= false ;
+      ["显示状态栏"]	= true ;
+      } ;
+  ["web"]	= {
+      ["浏览器用户标识"]	= "默认" ;
+      ["启用长按菜单"]	= false ;
+      ["支持打开外部应用"]	= false ;
+      ["网页沉浸"]	= false ;
+      ["启用进度条"]	= false ;
+      ["启动网页"]	= "" ;
+      } ;
+  ["fltBtn"]	= {
+      ["显示"]	= false ;
+      ["图标"]	= "" ;
+      ["点击事件"]	= "--悬浮按钮点击时执行的事件" ;
+      } ;
+  } ;
