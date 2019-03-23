@@ -1,4 +1,5 @@
-# Fusion.WeiboLite
+# ~~Fusion.WeiboLite~~
+`Abolished`
 
 ## 关于
 应用基于[微博HTML5版](https://m.weibo.cn)封装架。构
